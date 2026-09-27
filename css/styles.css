@@ -1,0 +1,272 @@
+/* Базовые переменные и сброс стилей */
+:root {
+    --accent: #2d9a6a;
+    /* Основной акцентный цвет (мягкий зелёный) */
+    --accent-dark: #257a52;
+    /* Тёмный оттенок для hover-состояний */
+    --discount-color: #c0392b;
+    /* Цвет для цены со скидкой (красный) */
+    --muted: #777;
+    /* Приглушённый серый для второстепенного текста */
+    --bg: #fff;
+    /* Цвет фона карточки */
+    --gap: 24px;
+    /* Основной отступ между элементами сетки */
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    /* Шрифт для всего документа */
+}
+
+/* Гарантируем, что padding и border не увеличивают итоговую ширину элементов */
+* {
+    box-sizing: border-box;
+}
+
+/* Сброс отступов у body и базовые стили страницы */
+body {
+    margin: 0;
+    background: #f6f6f6;
+    /* Светло-серый фон страницы */
+    color: #222;
+    /* Тёмный основной текст */
+}
+
+/* Контейнер страницы: центрируем и ограничиваем максимальную ширину */
+.page {
+    max-width: 1200px;
+    margin: 40px auto;
+    /* Отступы сверху/снизу и авто-центрирование */
+    padding: 16px;
+    /* Внутренний отступ для мобильных устройств */
+}
+
+/* Карточка товара: основная сетка*/
+.product-card {
+    display: grid;
+    /* Две колонки: левая — для медиа (ограниченная ширина), правая — на остаток места */
+    grid-template-columns: minmax(280px, 420px) 1fr;
+    /* Две строки: заголовок и основной контент */
+    grid-template-rows: auto 1fr;
+    /* Именованные области для удобного позиционирования дочерних элементов */
+    grid-template-areas:
+        "media header"
+        "media main";
+    gap: var(--gap);
+    /* Отступы между областями сетки */
+    background: var(--bg);
+    padding: 24px;
+    border-radius: 8px;
+    /* Скругление углов карточки */
+    align-items: start;
+    /* Выравнивание по верхнему краю */
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Привязываем заголовок к именованной области header */
+.product-header {
+    grid-area: header;
+}
+
+/* Привязываем блок с медиа к области media */
+.product-media {
+    grid-area: media;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    /* Обрезаем всё, что вылезает за границы */
+    align-self: start;
+    /* Выравниваем по верху */
+}
+
+/* Стили для изображения: адаптивность и визуальное оформление */
+.product-media img {
+    max-width: 100%;
+    /* Не выходит за пределы родителя */
+    max-height: 520px;
+    /* Ограничение по высоте */
+    height: auto;
+    display: block;
+    object-fit: contain;
+    /* Сохраняет пропорции, не обрезая картинку */
+    object-position: center;
+    border-radius: 6px;
+    /* Лёгкое скругление для фото */
+}
+
+/* Основной контент карточки (правая колонка) */
+.product-main {
+    grid-area: main;
+    min-width: 0;
+    /* Для корректной работы flex/grid внутри */
+}
+
+/* Второстепенные текстовые элементы */
+.category {
+    color: var(--muted);
+    margin: 0 0 8px;
+}
+
+/* Заголовок товара */
+.product-title {
+    margin: 0 0 12px;
+    font-size: 28px;
+}
+
+/* Артикул */
+.sku {
+    margin: 0 0 18px;
+    color: var(--muted);
+}
+
+/* Блок покупки: кнопки выбора веса и цена */
+.product-purchase {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+/* Контейнер для кнопок выбора веса */
+.sizes {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    /* Кнопки переносятся на новую строку при нехватке места */
+}
+
+/* Кнопки выбора веса */
+.size-btn {
+    background: #fafafa;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Активное состояние кнопки */
+.size-btn.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45, 154, 106, 0.08);
+}
+
+/* Фокус для доступности (клавиатурный ввод) */
+.size-btn:focus {
+    outline: 2px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Блок с ценами: текущая и старая */
+.price-block {
+    display: flex;
+    align-items: baseline;
+    /* Выравнивание по базовой линии текста */
+    gap: 12px;
+}
+
+/* Текущая цена */
+.price-current {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* Класс для цены со скидкой (меняем цвет на красный) */
+.price-current.discount {
+    color: var(--discount-color);
+}
+
+/* Старая цена (зачёркнутая) */
+.price-old {
+    color: var(--muted);
+    text-decoration: line-through;
+}
+
+/* Кнопка «В корзину» */
+.btn.add-to-cart {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform .12s, box-shadow .12s, background-color .12s;
+    width: max-content;
+    /* Ширина по содержимому */
+}
+
+/* Эффект при наведении на кнопку */
+.btn.add-to-cart:hover {
+    transform: translateY(-2px);
+    background: var(--accent-dark);
+    box-shadow: 0 8px 20px rgba(37, 122, 82, 0.12);
+}
+
+/* Заголовок и текст в блоке описания */
+.product-short h2 {
+    margin: 0 0 8px;
+    font-size: 16px;
+}
+
+.product-short p {
+    margin: 0;
+    color: var(--muted);
+}
+
+/* Адаптивность */
+
+/* Планшет и меньше: перестраиваем сетку в одну колонку */
+@media (max-width: 1024px) {
+    .product-card {
+        gap: 16px;
+        padding: 18px;
+        grid-template-columns: 1fr;
+        /* Одна колонка */
+        grid-template-rows: auto auto 1fr;
+        /* Три строки */
+        /* Вертикальная последовательность: заголовок, медиа, контент */
+        grid-template-areas:
+            "header"
+            "media"
+            "main";
+        align-items: start;
+    }
+
+    .product-header {
+        grid-area: header;
+    }
+
+    .product-media {
+        grid-area: media;
+        width: 100%;
+        max-width: 640px;
+        /* Ограничиваем максимальную ширину на планшетах */
+        margin: 0 auto;
+        align-self: center;
+    }
+
+    .product-main {
+        grid-area: main;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .product-purchase {
+        margin-top: 0;
+    }
+}
+
+/* Мобильные устройства: уменьшаем шрифты и отступы */
+@media (max-width: 375px) {
+    .product-title {
+        font-size: 20px;
+    }
+
+    .price-current {
+        font-size: 20px;
+    }
+
+    .sizes {
+        gap: 6px;
+    }
+}
